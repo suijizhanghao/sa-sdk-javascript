@@ -2325,7 +2325,7 @@
 
 
         function closure(p, c) {
-          sd.track('$pageview', _.extend({
+          sd.track('$pageview_'+sd.para.fenhang_code, _.extend({
             $referrer: url,
             $url: location.href,
             $url_path: location.pathname,
@@ -2374,7 +2374,7 @@
         if (sd.para.is_single_page) {
           _.addHashEvent(function() {
             var referrer = _.getReferrer(current_page_url);
-            sd.track('$pageview', _.extend({
+            sd.track('$pageview_'+sd.para.fenhang_code, _.extend({
               $referrer: referrer,
               $url: location.href,
               $url_path: location.pathname,
@@ -2384,7 +2384,7 @@
           });
         }
 
-        sd.track('$pageview', _.extend({
+        sd.track('$pageview_'+sd.para.fenhang_code, _.extend({
           $referrer: _.getReferrer(),
           $url: location.href,
           $url_path: location.pathname,
@@ -2748,7 +2748,7 @@
       add: function(data) {
         if (_.isObject(data)) {
           this.writeStore(data);
-          if (data.type === 'track_signup' || data.event === '$pageview') {
+          if (data.type === 'track_signup' || data.event === '$pageview_'+sd.para.fenhang_code) {
             this.sendStrategy();
           }
         }
@@ -3563,7 +3563,7 @@
       },
       is_first_visit_time: false,
       checkIsFirstTime: function(data) {
-        if (data.type === 'track' && data.event === '$pageview') {
+        if (data.type === 'track' && data.event === '$pageview_'+sd.para.fenhang_code) {
           if (this.is_first_visit_time) {
             data.properties.$is_first_time = true;
             this.is_first_visit_time = false;
@@ -3617,7 +3617,7 @@
             };
           }
           this.checkIsFirstTime = function(data) {
-            if (data.type === 'track' && data.event === '$pageview') {
+            if (data.type === 'track' && data.event === '$pageview_'+sd.para.fenhang_code) {
               data.properties.$is_first_time = false;
             }
           }
@@ -3814,9 +3814,9 @@
           _.trackLink({
             event: ev,
             target: target
-          }, '$WebClick', prop);
+          }, '$WebClick_'+sd.para.fenhang_code, prop);
         } else {
-          sd.track('$WebClick', prop, userCallback);
+          sd.track('$WebClick_'+sd.para.fenhang_code, prop, userCallback);
         }
 
       },
@@ -3885,7 +3885,7 @@
               para.$title = document.title;
               para.$url_path = location.pathname;
               para.event_duration = Math.min(sd.para.heatmap.scroll_event_duration, parseInt(delay_time) / 1000);
-              sd.track('$WebStay', para);
+              sd.track('$WebStay_'+sd.para.fenhang_code, para);
             }
             this.current_time = current_time;
           }
